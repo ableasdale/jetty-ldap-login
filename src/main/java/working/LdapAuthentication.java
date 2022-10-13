@@ -1,26 +1,22 @@
 package working;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.jaas.JAASLoginService;
 import org.eclipse.jetty.jaas.spi.LdapLoginModule;
-import org.eclipse.jetty.security.*;
+import org.eclipse.jetty.security.ConstraintMapping;
+import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.DefaultIdentityService;
 import org.eclipse.jetty.security.authentication.FormAuthenticator;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.security.Constraint;
 
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Log in with user: Kafka_test and password
+ * Log in with Windows Active Directory user: Kafka_test and password
  */
 public class LdapAuthentication {
     public static class TestConfiguration extends Configuration {
@@ -35,10 +31,10 @@ public class LdapAuthentication {
             Map<String, String> options = new HashMap<>();
             options.put("useLdaps", "false");
             options.put("contextFactory", "com.sun.jndi.ldap.LdapCtxFactory");
-            options.put("hostname", "WINDOWS_AD_HOSTNAME");
+            options.put("hostname", "WIN-7F40HNU7OPJ");
             options.put("port", "389");
             options.put("bindDn", "kafka@ad-test.confluent.io");
-            options.put("bindPassword", "password-for-user-to-perform-binding");
+            options.put("bindPassword", "t1nk3r&b3ll");
             options.put("authenticationMethod", "simple");
             options.put("forceBindingLogin", Boolean.toString(forceBindingLogin));
             options.put("userBaseDn", "CN=Users,DC=ad-test,DC=confluent,DC=io");
@@ -60,24 +56,7 @@ public class LdapAuthentication {
 
     public static void main(String[] args) {
         Server server = new Server(8080);
-        ServletContextHandler context = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS | ServletContextHandler.SECURITY);
-
-        context.addServlet(new ServletHolder(new DefaultServlet() {
-            @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                response.getWriter().append("hello " + request.getUserPrincipal().getName());
-            }
-        }), "/*");
-
-        context.addServlet(new ServletHolder(new DefaultServlet() {
-            @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                response.getWriter().append("<html><form method='POST' action='/j_security_check'>"
-                        + "<input type='text' name='j_username'/>"
-                        + "<input type='password' name='j_password'/>"
-                        + "<input type='submit' value='Login'/></form></html>");
-            }
-        }), "/login");
+        ServletContextHandler context = Common.getServletContextHandler(server);
 
         Constraint constraint = new Constraint();
         constraint.setName(Constraint.__FORM_AUTH);
@@ -99,7 +78,7 @@ public class LdapAuthentication {
         ls.setConfiguration(new TestConfiguration(true));
 
         securityHandler.setLoginService(ls);
-        FormAuthenticator authenticator = new FormAuthenticator("/login", "/login", false);
+        FormAuthenticator authenticator = new FormAuthenticator("/login", "/error", false);
         securityHandler.setAuthenticator(authenticator);
         context.setSecurityHandler(securityHandler);
 
