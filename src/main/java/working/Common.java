@@ -19,22 +19,21 @@ public class Common {
 
         context.addServlet(new ServletHolder(new DefaultServlet() {
             @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                //response.getWriter().
-                response.getWriter().append("hello " + request.getUserPrincipal().getName());
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+                response.getWriter().append("hello ").append(request.getUserPrincipal().getName());
             }
         }), "/*");
 
         context.addServlet(new ServletHolder(new DefaultServlet() {
             @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 response.getWriter().append(Files.readString(Path.of("src/main/resources/webapp/login.html")));
             }
         }), "/login");
 
         context.addServlet(new ServletHolder(new DefaultServlet() {
             @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 response.getWriter().append(Files.readString(Path.of("src/main/resources/webapp/error.html")));
             }
         }), "/error");
