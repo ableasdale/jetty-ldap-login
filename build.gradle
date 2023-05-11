@@ -15,10 +15,10 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-jaas', version: '11.0.12'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlets', version: '11.0.12'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '11.0.12'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '11.0.12'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-jaas', version: '11.0.15'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlets', version: '11.0.15'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '11.0.15'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '11.0.15'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.3'
     implementation group: 'org.slf4j', name: 'slf4j-reload4j', version: '2.0.3'
 }
