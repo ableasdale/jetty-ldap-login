@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * To use go to: localhost:8080
  * Log in with Windows Active Directory user: (e.g. Kafka_test) and password
+ * Try Administrator user if unsure...
  */
 public class LdapAuthentication {
     public static class TestConfiguration extends Configuration {
@@ -32,10 +33,10 @@ public class LdapAuthentication {
             Map<String, String> options = new HashMap<>();
             options.put("useLdaps", "false");
             options.put("contextFactory", "com.sun.jndi.ldap.LdapCtxFactory");
-            options.put("hostname", "<<YOUR HOSTNAME HERE>>");
+            options.put("hostname", "192.168.1.188");
             options.put("port", "389");
             options.put("bindDn", "kafka@ad-test.confluent.io");
-            options.put("bindPassword", "<<YOUR AD BIND USER PASSWORD HERE>>");
+            options.put("bindPassword", "!Test!Test!Test");
             options.put("authenticationMethod", "simple");
             options.put("forceBindingLogin", Boolean.toString(forceBindingLogin));
             options.put("userBaseDn", "CN=Users,DC=ad-test,DC=confluent,DC=io");
