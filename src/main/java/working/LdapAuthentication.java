@@ -33,10 +33,10 @@ public class LdapAuthentication {
             Map<String, String> options = new HashMap<>();
             options.put("useLdaps", "false");
             options.put("contextFactory", "com.sun.jndi.ldap.LdapCtxFactory");
-            options.put("hostname", "192.168.1.188");
+            options.put("hostname", "192.168.1.78");
             options.put("port", "389");
             options.put("bindDn", "kafka@ad-test.confluent.io");
-            options.put("bindPassword", "!Test!Test!Test");
+            options.put("bindPassword", "P@ssword_987654321");
             options.put("authenticationMethod", "simple");
             options.put("forceBindingLogin", Boolean.toString(forceBindingLogin));
             options.put("userBaseDn", "CN=Users,DC=ad-test,DC=confluent,DC=io");
